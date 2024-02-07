@@ -76,7 +76,14 @@ public class DataUtilitiesTest extends DataUtilities {
 		         }
 		     });
 	}
-
+	
+	//--------------------Tests for calculateColumnTotal------------------------------------
+	
+	
+	/*
+     * This test is designed to test the method when all
+     * the column inputs are numeric values
+     */
 	 @Test
 	 public void calculateColumnTotalForColumnWithAllNumbers() {
 	     
@@ -84,26 +91,42 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Result of testing a valid column of a values2D object", 25.1, result, .000000001d);
 	 }
 	 
+	 /*
+	  * This test is designed to test the method when the
+	  * column inputs are a mix of numeric and null values
+	  */
 	 @Test
 	 public void calculateColumnTotalForColumnWithNumbersAndNull() {
 	     
 	     double result = DataUtilities.calculateColumnTotal(values, 2);
 	     assertEquals("Result of testing a valid column of a values2D object containing null values", 52.8, result, .000000001d);
 	 }
-	 
+	
+	 /*
+	  * This test is designed to test the method when all
+	  * the column inputs are null values
+	  */
 	 @Test
 	 public void calculateColumnTotalForColumnWithAllNull() {
 	     
 	     double result = DataUtilities.calculateColumnTotal(nullValues, 0);
 	     assertEquals("Result of testing a valid column of a values2D object containing all null values", 0, result, .000000001d);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method when
+	  * the index of the column is outside of the bounds
+	  * of the Values2D object
+	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
 	 public void calculateColumnTotalForColumnOutOfRange() throws IndexOutOfBoundsException{
 			 DataUtilities.calculateColumnTotal(values, 3);
 
 	 }
 	 
+	 /*
+	  * This test is designed to test the method when
+	  * the input parameters to the method are invalid
+	  */
 	 @Test (expected = InvalidParameterException.class)
 	 public void calculateColumnTotalForInvalidInput() throws InvalidParameterException{
 		 try {
@@ -113,6 +136,12 @@ public class DataUtilitiesTest extends DataUtilities {
 		 }
 	 }
 	 
+	//--------------------Tests for calculateRowTotal------------------------------------
+	 
+	 /*
+	  * This test is designed to test the method when all
+	  * the row inputs are numeric values
+	  */
 	 @Test
 	 public void calculateRowTotalForRowWithAllNumbers() {
 	     
@@ -120,26 +149,40 @@ public class DataUtilitiesTest extends DataUtilities {
 	     assertEquals("Result of testing a valid row of a values2D object", 46.3, result, .000000001d);
 	 }
 	 
+	 /*
+	  * This test is designed to test the method when the
+	  * row inputs are a mix of numeric and null values
+	  */
 	 @Test
 	 public void calculateRowTotalForRowWithNumbersAndNull() {
 	     
 	     double result = DataUtilities.calculateColumnTotal(values, 2);
 	     assertEquals("Result of testing a valid row of a values2D object containing null values", 22.1, result, .000000001d);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method when all
+	  * the row inputs are null values
+	  */
 	 @Test
 	 public void calculateRowTotalForRowWithAllNull() {
 	     
 	     double result = DataUtilities.calculateColumnTotal(nullValues, 0);
 	     assertEquals("Result of testing a valid row of a values2D object containing all null values", 0, result, .000000001d);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method when
+	  * the index of the row is outside of the bounds
+	  * of the Values2D object
+	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
 	 public void calculateRowTotalForRowOutOfRange() throws IndexOutOfBoundsException{
 			 DataUtilities.calculateColumnTotal(values, 3);
 
 	 }
-	 
+	 /*
+	  * This test is designed to test the method when
+	  * the input parameters to the method are invalid
+	  */
 	 @Test (expected = InvalidParameterException.class)
 	 public void calculateRowTotalForInvalidInput() throws InvalidParameterException{
 		 try {
@@ -149,6 +192,12 @@ public class DataUtilitiesTest extends DataUtilities {
 		 }
 	 }
 	 
+	 //--------------------Tests for createNumberArray------------------------------------
+	 /*
+	  * This test is designed to test the method
+	  * when a proper array of doubles is passed in
+	  * as an input parameter
+	  */
 	 @Test
 	 public void createNumberArrayWithValidInputs() {
 		 double data[] = {1.0, 2.0, 3.0};
