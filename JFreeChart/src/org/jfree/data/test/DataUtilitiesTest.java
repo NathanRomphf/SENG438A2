@@ -181,7 +181,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	 @Test
 	 public void calculateRowTotalForRowWithNumbersAndNull() {
 	     
-	     double result = DataUtilities.calculateColumnTotal(values, 2);
+	     double result = DataUtilities.calculateRowTotal(values, 2);
 	     assertEquals("Result of testing a valid row of a values2D object containing null values", 22.1, result, .000000001d);
 	 }
 	 /*
@@ -191,7 +191,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	 @Test
 	 public void calculateRowTotalForRowWithAllNull() {
 	     
-	     double result = DataUtilities.calculateColumnTotal(nullValues, 0);
+	     double result = DataUtilities.calculateRowTotal(nullValues, 0);
 	     assertEquals("Result of testing a valid row of a values2D object containing all null values", 0, result, .000000001d);
 	 }
 	 /*
@@ -201,7 +201,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
 	 public void calculateRowTotalForRowAboveRange() throws IndexOutOfBoundsException{
-			 DataUtilities.calculateColumnTotal(values, 3);
+			 DataUtilities.calculateRowTotal(values, 3);
 
 	 }
 	 
@@ -212,7 +212,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
 	 public void calculateRowTotalForRowBelowRange() throws IndexOutOfBoundsException{
-			 DataUtilities.calculateColumnTotal(values, -1);
+			 DataUtilities.calculateRowTotal(values, -1);
 
 	 }
 	 
@@ -257,7 +257,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		 for(int i=0; i<100; i++) {
 			 data[i] = i;
 		 }
-		 Number expected[] = (Number) data;
+		 Number expected[] = {};
 		 Number actual[] = DataUtilities.createNumberArray(data);
 		 assertArrayEquals("Converting from an empy double array to empty number array",expected, actual);
 	 }
