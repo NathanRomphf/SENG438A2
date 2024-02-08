@@ -54,11 +54,23 @@ public class DataUtilitiesTest extends DataUtilities {
 	             will(throwException(new IndexOutOfBoundsException()));
 	             one(values).getValue(2, 3);
 	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(0, -1);
+	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(1, -1);
+	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(2, -1);
+	             will(throwException(new IndexOutOfBoundsException()));
 	             one(values).getValue(3, 0);
 	             will(throwException(new IndexOutOfBoundsException()));
-	             one(values).getValue(0, 1);
+	             one(values).getValue(3, 1);
 	             will(throwException(new IndexOutOfBoundsException()));
-	             one(values).getValue(0, 2);
+	             one(values).getValue(3, 2);
+	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(-1, 0);
+	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(-1, 1);
+	             will(throwException(new IndexOutOfBoundsException()));
+	             one(values).getValue(-1, 2);
 	             will(throwException(new IndexOutOfBoundsException()));
 	         }
 	     });
@@ -118,8 +130,21 @@ public class DataUtilitiesTest extends DataUtilities {
 	  * of the Values2D object
 	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
-	 public void calculateColumnTotalForColumnOutOfRange() throws IndexOutOfBoundsException{
-			 DataUtilities.calculateColumnTotal(values, 3);
+	 public void calculateColumnTotalForColumnAboveRange() throws IndexOutOfBoundsException{
+		 double result =DataUtilities.calculateColumnTotal(values, 3);
+		 assertEquals("Result of testing an invalid column", 0, result, .000000001d);
+
+	 }
+	 
+	 /*
+	  * This test is designed to test the method when
+	  * the index of the column is outside of the bounds
+	  * of the Values2D object
+	  */
+	 @Test (expected = IndexOutOfBoundsException.class)
+	 public void calculateColumnTotalForColumnBelowRange() throws IndexOutOfBoundsException{
+		 double result =DataUtilities.calculateColumnTotal(values, -1);
+		 assertEquals("Result of testing an invalid column", 0, result, .000000001d);
 
 	 }
 	 
@@ -175,10 +200,22 @@ public class DataUtilitiesTest extends DataUtilities {
 	  * of the Values2D object
 	  */
 	 @Test (expected = IndexOutOfBoundsException.class)
-	 public void calculateRowTotalForRowOutOfRange() throws IndexOutOfBoundsException{
+	 public void calculateRowTotalForRowAboveRange() throws IndexOutOfBoundsException{
 			 DataUtilities.calculateColumnTotal(values, 3);
 
 	 }
+	 
+	 /*
+	  * This test is designed to test the method when
+	  * the index of the row is outside of the bounds
+	  * of the Values2D object
+	  */
+	 @Test (expected = IndexOutOfBoundsException.class)
+	 public void calculateRowTotalForRowBelowRange() throws IndexOutOfBoundsException{
+			 DataUtilities.calculateColumnTotal(values, -1);
+
+	 }
+	 
 	 /*
 	  * This test is designed to test the method when
 	  * the input parameters to the method are invalid
@@ -199,10 +236,39 @@ public class DataUtilitiesTest extends DataUtilities {
 	  * as an input parameter
 	  */
 	 @Test
-	 public void createNumberArrayWithValidInputs() {
+	 public void createNumberArrayWithDoublesOnly() {
 		 double data[] = {1.0, 2.0, 3.0};
 		 Number expected[] = {1.0, 2.0, 3.0};
 		 Number actual[] = DataUtilities.createNumberArray(data);
-		 assertArrayEquals(expected, actual);
+		 assertArrayEquals("Array with doubles only does not successfully conver to Number objects", expected, actual);
+	 }
+	 
+	 @Test
+	 public void createNumberArrayWithEmptyArray() {
+		 double data[]= {};
+		 Number expected[] = {};
+		 Number actual[] = DataUtilities.createNumberArray(data);
+		 assertArrayEquals("Converting from an empy double array to empty number array",expected, actual);
+	 }
+	 
+	 @Test
+	 public void createNumberArrayWithLargeArray() {
+		 double data[]= {};
+		 for(int i=0; i<100; i++) {
+			 data[i] = i;
+		 }
+		 Number expected[] = (Number) data;
+		 Number actual[] = DataUtilities.createNumberArray(data);
+		 assertArrayEquals("Converting from an empy double array to empty number array",expected, actual);
+	 }
+	 
+	 @Test (expected = InvalidParameterException.class)
+	 public void createNumberArrayForInvalidInput() {
+		 try {
+			 double data[] = null;
+			 DataUtilities.createNumberArray(data);
+		 }catch(Exception e) {
+			 
+		 }
 	 }
 }
