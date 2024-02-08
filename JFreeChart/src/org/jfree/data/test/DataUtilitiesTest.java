@@ -5,12 +5,16 @@ import static org.junit.Assert.*;
 
 import java.security.InvalidParameterException;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import org.jfree.data.DataUtilities;
 import org.jfree.data.Values2D;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.api.Action;
 import org.junit.Test;
+import org.jfree.data.KeyedValues;
+import org.jfree.data.DefaultKeyedValues;
 
 
 
@@ -252,14 +256,17 @@ public class DataUtilitiesTest extends DataUtilities {
 	 }
 	 
 	 @Test
-	 public void createNumberArrayWithLargeArray() {
-		 double data[]= {};
+	 public void createNumberArrayWithLargeArray() { //FAILS actual[99] = null
+		 double data[] = new double[100];
+		 Number expected[] = new Number[100];
+		 
 		 for(int i=0; i<100; i++) {
 			 data[i] = i;
+			 expected[i] = Double.valueOf(i);
 		 }
-		 Number expected[] = {};
+		 
 		 Number actual[] = DataUtilities.createNumberArray(data);
-		 assertArrayEquals("Converting from an empy double array to empty number array",expected, actual);
+		 assertArrayEquals("Creating a Number array from a large array",expected, actual);
 	 }
 	 
 	 @Test (expected = InvalidParameterException.class)
@@ -271,4 +278,97 @@ public class DataUtilitiesTest extends DataUtilities {
 			 
 		 }
 	 }
+	//--------------------Tests for createNumberArray2D------------------------------------
+	 @Test
+	 public void createNumberArray2DWithDoublesOnly() { //FAILES - misses the last element in a row
+		 double[][] data = {
+				    {1.0, 2.0, 3.0},
+				    {5.0, 6.0, 7.0},
+				    {9.0, 10.0, 11.0}
+				};
+		 Number expected[][] = {
+				    {1.0, 2.0, 3.0},
+				    {5.0, 6.0, 7.0},
+				    {9.0, 10.0, 11.0}
+				};
+		 Number actual[][] = DataUtilities.createNumberArray2D(data);
+		 assertArrayEquals("2D Array with valid input", expected, actual);
+	 }
+	 
+	 @Test
+	 public void createNumberArray2DWithEmptyArray() {
+		double[][] data = {{},{}};
+		Number[][] expected = {{},{}};
+		Number actual[][] = DataUtilities.createNumberArray2D(data);
+		assertArrayEquals("Converting from an empy 2D double array to empty 2D number array",expected, actual);
+	 }
+	 
+	 @Test
+	 public void createNumberArray2DWithLargeArray() { //FAILS actual[0][9] = null
+		 double data[][] = new double[10][10];
+		 Number expected[][] = new Number[10][10];
+		 
+		 for(int i=0; i<10; i++) {
+			 for(int j=0; j<10; j++) {
+				 data[i][j] = i+j;
+				 expected[i][j] = (double)i+j;
+				 
+			 }
+		 }
+		 System.out.println(expected[0][1]);
+		 Number actual[][] = DataUtilities.createNumberArray2D(data);
+		 assertArrayEquals("Creating a Number array from a large array",expected, actual);
+	 }
+	 
+	@Test(expected = InvalidParameterException.class)
+	public void createNumberArray2DForInvalidInput() { //fails - wrong exception thrown
+			double data[][] = null;
+			DataUtilities.createNumberArray2D(data);
+	}
+	
+	//--------------------Tests for getCumulativePercentages------------------------------------
+	//null input(exception), empty keyValues, single value, multiple values
+	
+	@Test
+	public void getCumulativePercentagesForSingleValue() { //FAILS - returns infinity
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Integer.valueOf(0), 50);
+
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(1, actual.getItemCount());
+		assertEquals(1, (double) actual.getValue(0),0.1);
+
+	}
+	
+	@Test
+	public void getCumulativePercentagesForMultipleValues() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Integer.valueOf(0), 5);
+		data.addValue(Integer.valueOf(1), 9);
+		data.addValue(Integer.valueOf(2), 2);
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesWithEmptyInput() {
+		KeyedValues data = new DefaultKeyedValues();
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		assertEquals(0, actual.getItemCount());
+	}
+	
+    @Test(expected = InvalidParameterException.class)
+	public void getCumulativePercentagesWithNullInput() { //FAILS - returns wrong exception
+        KeyedValues data = null;
+        DataUtilities.getCumulativePercentages(data);
+	}
+	
+	
 }
