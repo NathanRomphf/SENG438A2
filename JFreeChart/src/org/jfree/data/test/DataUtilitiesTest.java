@@ -343,7 +343,7 @@ public class DataUtilitiesTest extends DataUtilities {
 	}
 	
 	@Test
-	public void getCumulativePercentagesForMultipleValues() { //FAILS - completely wrong values returned
+	public void getCumulativePercentagesForIntInt() { //FAILS - completely wrong values returned
 		DefaultKeyedValues data = new DefaultKeyedValues();
 		data.addValue(Integer.valueOf(0), 5);
 		data.addValue(Integer.valueOf(1), 9);
@@ -356,6 +356,82 @@ public class DataUtilitiesTest extends DataUtilities {
 		assertEquals(0.875, (double) actual.getValue(0),0.0001);
 		assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
+	
+	@Test
+	public void getCumulativePercentagesForDoubleInt() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Double.valueOf(0.1), 5);
+		data.addValue(Double.valueOf(1.1), 9);
+		data.addValue(Double.valueOf(2.1), 2);
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForIntDouble() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Integer.valueOf(0), 5.5);
+		data.addValue(Integer.valueOf(1), 9.5);
+		data.addValue(Integer.valueOf(2), 2.5);//17.5
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.31429, (double) actual.getValue(0),0.0001);
+		assertEquals(0.85714, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForCharInt() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue("a", 5);
+		data.addValue("b", 9);
+		data.addValue("c", 2);//17.5
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForNegativeKey() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Integer.valueOf(-2), 5);
+		data.addValue(Integer.valueOf(-1), 9);
+		data.addValue(Integer.valueOf(2), 2);
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForLargeValues() { //FAILS - completely wrong values returned
+		DefaultKeyedValues data = new DefaultKeyedValues();
+		data.addValue(Integer.valueOf(0), 5);
+		data.addValue(Integer.valueOf(100), 9);
+		data.addValue(Integer.valueOf(2000), 2);
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		
+		assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
 	
 	@Test
 	public void getCumulativePercentagesWithEmptyInput() {
