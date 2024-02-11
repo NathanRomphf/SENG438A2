@@ -388,7 +388,10 @@ public class DataUtilitiesTest extends DataUtilities {
 		 Number actual[] = DataUtilities.createNumberArray(data);
 		 assertArrayEquals("Array with doubles only does not successfully conver to Number objects", expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumber array when an empty array is passed in
+	  */
 	 @Test
 	 public void createNumberArrayWithEmptyArray() {
 		 double data[]= {};
@@ -396,7 +399,11 @@ public class DataUtilitiesTest extends DataUtilities {
 		 Number actual[] = DataUtilities.createNumberArray(data);
 		 assertArrayEquals("Converting from an empy double array to empty number array",expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumber array when a large array of
+	  * doubles is passed in
+	  */
 	 @Test
 	 public void createNumberArrayWithLargeArray() { //FAILS actual[99] = null
 		 double data[] = new double[100];
@@ -410,7 +417,11 @@ public class DataUtilitiesTest extends DataUtilities {
 		 Number actual[] = DataUtilities.createNumberArray(data);
 		 assertArrayEquals("Creating a Number array from a large array",expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumber array when the invalid parameter of
+	  * a null array is passed in
+	  */
 	 @Test (expected = InvalidParameterException.class)
 	 public void createNumberArrayForInvalidInput() {
 		 try {
@@ -421,6 +432,11 @@ public class DataUtilitiesTest extends DataUtilities {
 		 }
 	 }
 	//--------------------Tests for createNumberArray2D------------------------------------
+	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumberArray2D with a valid matrix of doubles
+	  */
 	 @Test
 	 public void createNumberArray2DWithDoublesOnly() { //FAILES - misses the last element in a row
 		 double[][] data = {
@@ -436,7 +452,10 @@ public class DataUtilitiesTest extends DataUtilities {
 		 Number actual[][] = DataUtilities.createNumberArray2D(data);
 		 assertArrayEquals("2D Array with valid input", expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumberArray2D with an empty 2D array
+	  */
 	 @Test
 	 public void createNumberArray2DWithEmptyArray() {
 		double[][] data = {{},{}};
@@ -444,7 +463,11 @@ public class DataUtilitiesTest extends DataUtilities {
 		Number actual[][] = DataUtilities.createNumberArray2D(data);
 		assertArrayEquals("Converting from an empy 2D double array to empty 2D number array",expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumberArray2D with a large 2D array
+	  * passed in
+	  */
 	 @Test
 	 public void createNumberArray2DWithLargeArray() { //FAILS actual[0][9] = null
 		 double data[][] = new double[10][10];
@@ -461,9 +484,13 @@ public class DataUtilitiesTest extends DataUtilities {
 		 Number actual[][] = DataUtilities.createNumberArray2D(data);
 		 assertArrayEquals("Creating a Number array from a large array",expected, actual);
 	 }
-	 
+	 /*
+	  * This test is designed to test the method
+	  * createNumberArray2D when a null value is passed in.
+	  * should throw an exception
+	  */
 	@Test(expected = InvalidParameterException.class)
-	public void createNumberArray2DForInvalidInput() { //fails - wrong exception thrown
+	public void createNumberArray2DForInvalidInput() {
 			double data[][] = null;
 			DataUtilities.createNumberArray2D(data);
 	}
@@ -471,140 +498,136 @@ public class DataUtilitiesTest extends DataUtilities {
 	//--------------------Tests for getCumulativePercentages------------------------------------
 	//null input(exception), empty keyValues, single value, multiple values
 	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the keyedValue passed in only contains one key, value pair
+	 */
 	@Test
-	public void getCumulativePercentagesForSingleValue() { //FAILS - returns infinity
-//		DefaultKeyedValues data = new DefaultKeyedValues();
-//		data.addValue(Integer.valueOf(0), 50);	
+	public void getCumulativePercentagesForSingleValue() {
 		KeyedValues actual = DataUtilities.getCumulativePercentages(singleValue);
-		assertEquals(1, (double) actual.getValue(0),0.1);
+		assertEquals("The value for the percentage should be 1", 1, (double) actual.getValue(0),0.1);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * and how many key, value pairs are returned
+	 */
 	@Test
-	public void getCumulativePercentagesItemCount() { //FAILS - completely wrong values returned
-//		DefaultKeyedValues data = new DefaultKeyedValues();
-//		data.addValue(Integer.valueOf(0), 5);
-//		data.addValue(Integer.valueOf(1), 9);
-//		data.addValue(Integer.valueOf(2), 2);
-		
+	public void getCumulativePercentagesItemCount() {
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
 		
-		assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("There should be one key, value pair for each one in the keyedValue object passed in"
+				,3, actual.getItemCount());
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when both the key and value in the key, value pairs are integers
+	 * and the percentage that the first index contributes to the total.
+	 */
 	@Test
 	public void getCumulativePercentagesForIntIntFirstIndex() { //FAILS - completely wrong values returned
-//		DefaultKeyedValues data = new DefaultKeyedValues();
-//		data.addValue(Integer.valueOf(0), 5);
-//		data.addValue(Integer.valueOf(1), 9);
-//		data.addValue(Integer.valueOf(2), 2);
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first value is wrong"
+				,0.3125, (double) actual.getValue(0),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when both the key and value in the key, value pairs are integers
+	 * and the percentage that the first + second index contributes to the total
+	 */
 	@Test
 	public void getCumulativePercentagesForIntIntSecondIndex() { //FAILS - completely wrong values returned
-//		DefaultKeyedValues data = new DefaultKeyedValues();
-//		data.addValue(Integer.valueOf(0), 5);
-//		data.addValue(Integer.valueOf(1), 9);
-//		data.addValue(Integer.valueOf(2), 2);
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		assertEquals(0.875, (double) actual.getValue(1),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first + second value is wrong"
+				,0.875, (double) actual.getValue(1),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when both the key and value in the key, value pairs are integers
+	 * and the cumulative value of the last index, which should always be 1
+	 */
 	@Test
 	public void getCumulativePercentagesForIntIntLastIndex() { //FAILS - completely wrong values returned
-//		DefaultKeyedValues data = new DefaultKeyedValues();
-//		data.addValue(Integer.valueOf(0), 5);
-//		data.addValue(Integer.valueOf(1), 9);
-//		data.addValue(Integer.valueOf(2), 2);
-		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(2),0.0001);
+		assertEquals("The cumulative percentage of all the key, value pairs should be 1"
+				,1.0, (double) actual.getValue(2),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a double and the value is an integer and the cumulative
+	 * percentage that the first value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForDoubleIntFirstIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		assertEquals(0.3125, (double) actual.getValue(0.1),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first value is wrong"
+				,0.3125, (double) actual.getValue(0.1),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a double and the value is an integer and the cumulative
+	 * percentage that the first value + second value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForDoubleIntSecondIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		assertEquals(0.875, (double) actual.getValue(1.1),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first + second value is wrong"
+				,0.875, (double) actual.getValue(1.1),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a double and the value is an integer and the 
+	 * cumulative value of the last index, which should always be 1
+	 */
 	@Test
 	public void getCumulativePercentagesForDoubleIntLastIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(2.1),0.0001);
+		assertEquals("The cumulative percentage of all 3 values is wrong. Should always sum to 1"
+				,1.0, (double) actual.getValue(2.1),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a integer and the value is a double and the cumulative
+	 * percentage that the first value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForIntDoubleFirstIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		assertEquals(0.31429, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.85714, (double) actual.getValue(0),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first value is wrong"
+				,0.31429, (double) actual.getValue(0),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a integer and the value is a double and the cumulative
+	 * percentage that the first + second value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForIntDoubleSecondIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.31429, (double) actual.getValue(0),0.0001);
-		assertEquals(0.85714, (double) actual.getValue(1),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first + second value is wrong",
+				0.85714, (double) actual.getValue(1),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is an integer and the value is a double and the 
+	 * cumulative value of the last index, which should always be 1
+	 */
 	@Test
 	public void getCumulativePercentagesForIntDoubleLastIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.31429, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.85714, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(2),0.0001);
+		assertEquals("The cumulative percentage of all 3 values is wrong. Should always sum to 1",
+				1.0, (double) actual.getValue(2),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 */
 	public void getCumulativePercentagesForCharInt() { //FAILS - completely wrong values returned
 		DefaultKeyedValues data = new DefaultKeyedValues();
 		data.addValue("a", 5);
@@ -618,40 +641,45 @@ public class DataUtilitiesTest extends DataUtilities {
 		assertEquals(0.875, (double) actual.getValue(0),0.0001);
 		assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a char and the value is an integer and the cumulative
+	 * percentage that the first value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForCharIntFirstIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		assertEquals(0.3125, (double) actual.getValue('a'),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first value is wrong",
+				0.3125, (double) actual.getValue('a'),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a char and the value is an integer and the cumulative
+	 * percentage that the first + second value contributes to the overall
+	 */
 	@Test
 	public void getCumulativePercentagesForCharIntSecondIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		assertEquals(0.875, (double) actual.getValue('b'),0.0001);
-		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		assertEquals("The cumulative percentage of the first + second value is wrong"
+				,0.875, (double) actual.getValue('b'),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 * when the key is a char and the value is an integer and the 
+	 * cumulative value of the last index, which should always be 1
+	 */
 	@Test
 	public void getCumulativePercentagesForCharIntLastIndex() { //FAILS - completely wrong values returned
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
-		
-		//assertEquals(3, actual.getItemCount());
-		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue('c'),0.0001);
+		assertEquals("The cumulative percentage of all 3 values is wrong. Should always sum to 1",
+				1.0, (double) actual.getValue('c'),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 */
 	@Test
 	public void getCumulativePercentagesForNegativeKey() { //FAILS - completely wrong values returned
 		DefaultKeyedValues data = new DefaultKeyedValues();
@@ -666,7 +694,9 @@ public class DataUtilitiesTest extends DataUtilities {
 		assertEquals(0.875, (double) actual.getValue(0),0.0001);
 		assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 */
 	@Test
 	public void getCumulativePercentagesForLargeValues() { //FAILS - completely wrong values returned
 		DefaultKeyedValues data = new DefaultKeyedValues();
@@ -682,14 +712,18 @@ public class DataUtilitiesTest extends DataUtilities {
 		assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
 	
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 */
 	@Test
 	public void getCumulativePercentagesWithEmptyInput() {
 		KeyedValues data = new DefaultKeyedValues();
 		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
 		assertEquals(0, actual.getItemCount());
 	}
-	
+	/*
+	 * This test is designed to test the method getCumulativePercentages
+	 */
     @Test(expected = InvalidParameterException.class)
 	public void getCumulativePercentagesWithNullInput() { //FAILS - returns wrong exception
         KeyedValues data = null;
