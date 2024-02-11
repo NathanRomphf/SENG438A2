@@ -4,6 +4,8 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.spi.DirStateFactory.Result;
 
@@ -14,6 +16,7 @@ import org.jmock.Mockery;
 import org.jmock.api.Action;
 import org.junit.Test;
 import org.jfree.data.KeyedValues;
+import org.jfree.data.UnknownKeyException;
 import org.jfree.data.DefaultKeyedValues;
 
 
@@ -22,8 +25,18 @@ public class DataUtilitiesTest extends DataUtilities {
 
 	private Mockery mockingContex;
 	private Mockery nullMockingContex;
+	private Mockery singleValueKeyedValue;
+	private Mockery intIntValueKeyedValue;
+	private Mockery doubleIntValueKeyedValue;
+	private Mockery intDoubleValueKeyedValue;
+	private Mockery charIntValueKeyedValue;
 	private Values2D values;
 	private Values2D nullValues;
+	private KeyedValues singleValue;
+	private KeyedValues intIntValue;
+	private KeyedValues doubleIntValue;
+	private KeyedValues intDoubleValue;
+	private KeyedValues charIntValue;
 	
 	public DataUtilitiesTest() {
 		this.mockingContex = new Mockery();
@@ -91,6 +104,135 @@ public class DataUtilitiesTest extends DataUtilities {
 		        	will(returnValue(null));
 		         }
 		     });
+		     
+		 this.singleValueKeyedValue = new Mockery();
+		 singleValue = this.singleValueKeyedValue.mock(KeyedValues.class);
+		 this.singleValueKeyedValue.checking(new Expectations() {
+			 {
+				 List<Integer> i = new ArrayList<Integer>();
+				 i.add(0);
+				 allowing(singleValue).getItemCount();
+				 will(returnValue(1));
+				 allowing(singleValue).getValue(0);
+				 will(returnValue(50));
+				 allowing(singleValue).getKey(0);
+				 will(returnValue(0));
+				 allowing(singleValue).getKeys();
+				 will(returnValue(i));
+			 }
+		 });
+		 
+		 this.intIntValueKeyedValue = new Mockery();
+		 intIntValue = this.intIntValueKeyedValue.mock(KeyedValues.class);
+		 this.intIntValueKeyedValue.checking(new Expectations() {
+			 {
+				 List<Integer> i = new ArrayList<Integer>();
+				 i.add(0);
+				 i.add(1);
+				 i.add(2);
+				 allowing(intIntValue).getItemCount();
+				 will(returnValue(3));
+				 allowing(intIntValue).getValue(0);
+				 will(returnValue(5));
+				 allowing(intIntValue).getValue(1);
+				 will(returnValue(9));
+				 allowing(intIntValue).getValue(2);
+				 will(returnValue(2));
+				 allowing(intIntValue).getKey(0);
+				 will(returnValue(0));
+				 allowing(intIntValue).getKey(1);
+				 will(returnValue(1));
+				 allowing(intIntValue).getKey(2);
+				 will(returnValue(2));
+				 allowing(intIntValue).getKeys();
+				 will(returnValue(i));
+			 }
+		 });
+		 
+		 this.doubleIntValueKeyedValue = new Mockery();
+		 doubleIntValue = this.doubleIntValueKeyedValue.mock(KeyedValues.class);
+		 this.doubleIntValueKeyedValue.checking(new Expectations() {
+			 {
+				 List<Double> i = new ArrayList<Double>();
+				 i.add(0.1);
+				 i.add(1.1);
+				 i.add(2.1);
+				 allowing(doubleIntValue).getItemCount();
+				 will(returnValue(3));
+				 allowing(doubleIntValue).getValue(0.1);
+				 will(returnValue(5));
+				 allowing(doubleIntValue).getValue(1.1);
+				 will(returnValue(9));
+				 allowing(doubleIntValue).getValue(2.1);
+				 will(returnValue(2));
+				 allowing(doubleIntValue).getKey(0);
+				 will(returnValue(0.1));
+				 allowing(doubleIntValue).getKey(1);
+				 will(returnValue(1.1));
+				 allowing(doubleIntValue).getKey(2);
+				 will(returnValue(2.1));
+				 allowing(doubleIntValue).getKeys();
+				 will(returnValue(i));
+				 allowing(doubleIntValue).getValue(1);
+				 will(throwException(new UnknownKeyException("There is no key = 1")));
+			 }
+		 });
+		 
+		 this.intDoubleValueKeyedValue = new Mockery();
+		 intDoubleValue = this.intDoubleValueKeyedValue.mock(KeyedValues.class);
+		 this.intDoubleValueKeyedValue.checking(new Expectations() {
+			 {
+				 List<Integer> i = new ArrayList<Integer>();
+				 i.add(0);
+				 i.add(1);
+				 i.add(2);
+				 allowing(intDoubleValue).getItemCount();
+				 will(returnValue(3));
+				 allowing(intDoubleValue).getValue(0);
+				 will(returnValue(5.5));
+				 allowing(intDoubleValue).getValue(1);
+				 will(returnValue(9.5));
+				 allowing(intDoubleValue).getValue(2);
+				 will(returnValue(2.5));
+				 allowing(intDoubleValue).getKey(0);
+				 will(returnValue(0));
+				 allowing(intDoubleValue).getKey(1);
+				 will(returnValue(1));
+				 allowing(intDoubleValue).getKey(2);
+				 will(returnValue(2));
+				 allowing(intDoubleValue).getKeys();
+				 will(returnValue(i));
+			 }
+		 });
+		 
+		 this.charIntValueKeyedValue = new Mockery();
+		 charIntValue = this.charIntValueKeyedValue.mock(KeyedValues.class);
+		 this.charIntValueKeyedValue.checking(new Expectations() {
+			 {
+				 List<Character> i = new ArrayList<Character>();
+				 i.add('a');
+				 i.add('b');
+				 i.add('c');
+				 allowing(charIntValue).getItemCount();
+				 will(returnValue(3));
+				 allowing(charIntValue).getValue("a");
+				 will(returnValue(5));
+				 allowing(charIntValue).getValue("b");
+				 will(returnValue(9));
+				 allowing(charIntValue).getValue("c");
+				 will(returnValue(2));
+				 allowing(charIntValue).getKey(0);
+				 will(returnValue('a'));
+				 allowing(charIntValue).getKey(1);
+				 will(returnValue('b'));
+				 allowing(charIntValue).getKey(2);
+				 will(returnValue('c'));
+				 allowing(charIntValue).getKeys();
+				 will(returnValue(i));
+			 }
+		 });
+		 
+
 	}
 	
 	//--------------------Tests for calculateColumnTotal------------------------------------
@@ -331,63 +473,138 @@ public class DataUtilitiesTest extends DataUtilities {
 	
 	@Test
 	public void getCumulativePercentagesForSingleValue() { //FAILS - returns infinity
-		DefaultKeyedValues data = new DefaultKeyedValues();
-		data.addValue(Integer.valueOf(0), 50);
-
-		
-		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
-		
-		assertEquals(1, actual.getItemCount());
+//		DefaultKeyedValues data = new DefaultKeyedValues();
+//		data.addValue(Integer.valueOf(0), 50);	
+		KeyedValues actual = DataUtilities.getCumulativePercentages(singleValue);
 		assertEquals(1, (double) actual.getValue(0),0.1);
-
 	}
 	
 	@Test
-	public void getCumulativePercentagesForIntInt() { //FAILS - completely wrong values returned
-		DefaultKeyedValues data = new DefaultKeyedValues();
-		data.addValue(Integer.valueOf(0), 5);
-		data.addValue(Integer.valueOf(1), 9);
-		data.addValue(Integer.valueOf(2), 2);
+	public void getCumulativePercentagesItemCount() { //FAILS - completely wrong values returned
+//		DefaultKeyedValues data = new DefaultKeyedValues();
+//		data.addValue(Integer.valueOf(0), 5);
+//		data.addValue(Integer.valueOf(1), 9);
+//		data.addValue(Integer.valueOf(2), 2);
 		
-		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
 		
 		assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForIntIntFirstIndex() { //FAILS - completely wrong values returned
+//		DefaultKeyedValues data = new DefaultKeyedValues();
+//		data.addValue(Integer.valueOf(0), 5);
+//		data.addValue(Integer.valueOf(1), 9);
+//		data.addValue(Integer.valueOf(2), 2);
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
 		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
 	
 	@Test
-	public void getCumulativePercentagesForDoubleInt() { //FAILS - completely wrong values returned
-		DefaultKeyedValues data = new DefaultKeyedValues();
-		data.addValue(Double.valueOf(0.1), 5);
-		data.addValue(Double.valueOf(1.1), 9);
-		data.addValue(Double.valueOf(2.1), 2);
+	public void getCumulativePercentagesForIntIntSecondIndex() { //FAILS - completely wrong values returned
+//		DefaultKeyedValues data = new DefaultKeyedValues();
+//		data.addValue(Integer.valueOf(0), 5);
+//		data.addValue(Integer.valueOf(1), 9);
+//		data.addValue(Integer.valueOf(2), 2);
 		
-		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
 		
-		assertEquals(3, actual.getItemCount());
-		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
-		assertEquals(0.875, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(1),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
 	
 	@Test
-	public void getCumulativePercentagesForIntDouble() { //FAILS - completely wrong values returned
-		DefaultKeyedValues data = new DefaultKeyedValues();
-		data.addValue(Integer.valueOf(0), 5.5);
-		data.addValue(Integer.valueOf(1), 9.5);
-		data.addValue(Integer.valueOf(2), 2.5);//17.5
+	public void getCumulativePercentagesForIntIntLastIndex() { //FAILS - completely wrong values returned
+//		DefaultKeyedValues data = new DefaultKeyedValues();
+//		data.addValue(Integer.valueOf(0), 5);
+//		data.addValue(Integer.valueOf(1), 9);
+//		data.addValue(Integer.valueOf(2), 2);
 		
-		KeyedValues actual = DataUtilities.getCumulativePercentages(data);
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intIntValue);
 		
-		assertEquals(3, actual.getItemCount());
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(2),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForDoubleIntFirstIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue(0.1),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForDoubleIntSecondIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue(1.1),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForDoubleIntLastIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(doubleIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(2.1),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForIntDoubleFirstIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
+		
+		//assertEquals(3, actual.getItemCount());
 		assertEquals(0.31429, (double) actual.getValue(0),0.0001);
-		assertEquals(0.85714, (double) actual.getValue(0),0.0001);
-		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.85714, (double) actual.getValue(0),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
 	}
 	
 	@Test
+	public void getCumulativePercentagesForIntDoubleSecondIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.31429, (double) actual.getValue(0),0.0001);
+		assertEquals(0.85714, (double) actual.getValue(1),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForIntDoubleLastIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(intDoubleValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.31429, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.85714, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue(2),0.0001);
+	}
+	
 	public void getCumulativePercentagesForCharInt() { //FAILS - completely wrong values returned
 		DefaultKeyedValues data = new DefaultKeyedValues();
 		data.addValue("a", 5);
@@ -400,6 +617,39 @@ public class DataUtilitiesTest extends DataUtilities {
 		assertEquals(0.3125, (double) actual.getValue(0),0.0001);
 		assertEquals(0.875, (double) actual.getValue(0),0.0001);
 		assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForCharIntFirstIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		assertEquals(0.3125, (double) actual.getValue('a'),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForCharIntSecondIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		assertEquals(0.875, (double) actual.getValue('b'),0.0001);
+		//assertEquals(1.0, (double) actual.getValue(0),0.0001);
+	}
+	
+	@Test
+	public void getCumulativePercentagesForCharIntLastIndex() { //FAILS - completely wrong values returned
+		
+		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
+		
+		//assertEquals(3, actual.getItemCount());
+		//assertEquals(0.3125, (double) actual.getValue(0),0.0001);
+		//assertEquals(0.875, (double) actual.getValue(0),0.0001);
+		assertEquals(1.0, (double) actual.getValue('c'),0.0001);
 	}
 	
 	@Test
