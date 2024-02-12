@@ -109,16 +109,19 @@ public class DataUtilitiesTest extends DataUtilities {
 		 singleValue = this.singleValueKeyedValue.mock(KeyedValues.class);
 		 this.singleValueKeyedValue.checking(new Expectations() {
 			 {
-				 List<Integer> i = new ArrayList<Integer>();
-				 i.add(0);
+//				 List<Integer> i = new ArrayList<Integer>();
+//				 i.add(0);
 				 allowing(singleValue).getItemCount();
 				 will(returnValue(1));
+				 
 				 allowing(singleValue).getValue(0);
 				 will(returnValue(50));
+				 
 				 allowing(singleValue).getKey(0);
 				 will(returnValue(0));
-				 allowing(singleValue).getKeys();
-				 will(returnValue(i));
+				 
+//				 allowing(singleValue).getKeys();
+//				 will(returnValue(i));
 			 }
 		 });
 		 
@@ -126,26 +129,29 @@ public class DataUtilitiesTest extends DataUtilities {
 		 intIntValue = this.intIntValueKeyedValue.mock(KeyedValues.class);
 		 this.intIntValueKeyedValue.checking(new Expectations() {
 			 {
-				 List<Integer> i = new ArrayList<Integer>();
-				 i.add(0);
-				 i.add(1);
-				 i.add(2);
+//				 List<Integer> i = new ArrayList<Integer>();
+//				 i.add(0);
+//				 i.add(1);
+//				 i.add(2);
+				 
 				 allowing(intIntValue).getItemCount();
 				 will(returnValue(3));
+				 
 				 allowing(intIntValue).getValue(0);
 				 will(returnValue(5));
 				 allowing(intIntValue).getValue(1);
 				 will(returnValue(9));
 				 allowing(intIntValue).getValue(2);
 				 will(returnValue(2));
+				 
 				 allowing(intIntValue).getKey(0);
 				 will(returnValue(0));
 				 allowing(intIntValue).getKey(1);
 				 will(returnValue(1));
 				 allowing(intIntValue).getKey(2);
 				 will(returnValue(2));
-				 allowing(intIntValue).getKeys();
-				 will(returnValue(i));
+//				 allowing(intIntValue).getKeys();
+//				 will(returnValue(i));
 			 }
 		 });
 		 
@@ -153,28 +159,30 @@ public class DataUtilitiesTest extends DataUtilities {
 		 doubleIntValue = this.doubleIntValueKeyedValue.mock(KeyedValues.class);
 		 this.doubleIntValueKeyedValue.checking(new Expectations() {
 			 {
-				 List<Double> i = new ArrayList<Double>();
-				 i.add(0.1);
-				 i.add(1.1);
-				 i.add(2.1);
+//				 List<Double> i = new ArrayList<Double>();
+//				 i.add(0.1);
+//				 i.add(1.1);
+//				 i.add(2.1);
 				 allowing(doubleIntValue).getItemCount();
 				 will(returnValue(3));
-				 allowing(doubleIntValue).getValue(0.1);
+				 allowing(doubleIntValue).getValue(0);
 				 will(returnValue(5));
-				 allowing(doubleIntValue).getValue(1.1);
+				 allowing(doubleIntValue).getValue(1);
 				 will(returnValue(9));
-				 allowing(doubleIntValue).getValue(2.1);
+				 allowing(doubleIntValue).getValue(2);
 				 will(returnValue(2));
+				 
 				 allowing(doubleIntValue).getKey(0);
 				 will(returnValue(0.1));
 				 allowing(doubleIntValue).getKey(1);
 				 will(returnValue(1.1));
 				 allowing(doubleIntValue).getKey(2);
 				 will(returnValue(2.1));
-				 allowing(doubleIntValue).getKeys();
-				 will(returnValue(i));
-				 allowing(doubleIntValue).getValue(1);
-				 will(throwException(new UnknownKeyException("There is no key = 1")));
+				 
+//				 allowing(doubleIntValue).getKeys();
+//				 will(returnValue(i));
+//				 allowing(doubleIntValue).getValue(1);
+//				 will(throwException(new UnknownKeyException("There is no key = 1")));
 			 }
 		 });
 		 
@@ -182,26 +190,30 @@ public class DataUtilitiesTest extends DataUtilities {
 		 intDoubleValue = this.intDoubleValueKeyedValue.mock(KeyedValues.class);
 		 this.intDoubleValueKeyedValue.checking(new Expectations() {
 			 {
-				 List<Integer> i = new ArrayList<Integer>();
-				 i.add(0);
-				 i.add(1);
-				 i.add(2);
+//				 List<Integer> i = new ArrayList<Integer>();
+//				 i.add(0);
+//				 i.add(1);
+//				 i.add(2);
+				 
 				 allowing(intDoubleValue).getItemCount();
 				 will(returnValue(3));
+				 
 				 allowing(intDoubleValue).getValue(0);
 				 will(returnValue(5.5));
 				 allowing(intDoubleValue).getValue(1);
 				 will(returnValue(9.5));
 				 allowing(intDoubleValue).getValue(2);
 				 will(returnValue(2.5));
+				 
 				 allowing(intDoubleValue).getKey(0);
 				 will(returnValue(0));
 				 allowing(intDoubleValue).getKey(1);
 				 will(returnValue(1));
 				 allowing(intDoubleValue).getKey(2);
 				 will(returnValue(2));
-				 allowing(intDoubleValue).getKeys();
-				 will(returnValue(i));
+				 
+//				 allowing(intDoubleValue).getKeys();
+//				 will(returnValue(i));
 			 }
 		 });
 		 
@@ -209,26 +221,28 @@ public class DataUtilitiesTest extends DataUtilities {
 		 charIntValue = this.charIntValueKeyedValue.mock(KeyedValues.class);
 		 this.charIntValueKeyedValue.checking(new Expectations() {
 			 {
-				 List<Character> i = new ArrayList<Character>();
-				 i.add('a');
-				 i.add('b');
-				 i.add('c');
+//				 List<Character> i = new ArrayList<Character>();
+//				 i.add('a');
+//				 i.add('b');
+//				 i.add('c');
 				 allowing(charIntValue).getItemCount();
 				 will(returnValue(3));
-				 allowing(charIntValue).getValue("a");
+				 allowing(charIntValue).getValue(0);
 				 will(returnValue(5));
-				 allowing(charIntValue).getValue("b");
+				 allowing(charIntValue).getValue(1);
 				 will(returnValue(9));
-				 allowing(charIntValue).getValue("c");
+				 allowing(charIntValue).getValue(2);
 				 will(returnValue(2));
+				 
 				 allowing(charIntValue).getKey(0);
 				 will(returnValue('a'));
 				 allowing(charIntValue).getKey(1);
 				 will(returnValue('b'));
 				 allowing(charIntValue).getKey(2);
 				 will(returnValue('c'));
-				 allowing(charIntValue).getKeys();
-				 will(returnValue(i));
+				 
+				 //allowing(charIntValue).getKeys();
+//				 will(returnValue(i));
 			 }
 		 });
 		 
@@ -303,7 +317,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		 try {
 			 DataUtilities.calculateColumnTotal(null, 0);
 		 }catch(Exception e) {
-			// fail("threw exception other than expected: " + e.toString());
+			//fail("threw exception other than expected: " + e.toString());
 		 }
 	 }
 	 
@@ -651,7 +665,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
 		assertEquals("The cumulative percentage of the first value is wrong",
-				0.3125, (double) actual.getValue('a'),0.0001);
+				0.3125, (double) actual.getValue(0),0.0001);
 	}
 	/*
 	 * This test is designed to test the method getCumulativePercentages
@@ -663,7 +677,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
 		assertEquals("The cumulative percentage of the first + second value is wrong"
-				,0.875, (double) actual.getValue('b'),0.0001);
+				,0.875, (double) actual.getValue(1),0.0001);
 	}
 	/*
 	 * This test is designed to test the method getCumulativePercentages
@@ -675,7 +689,7 @@ public class DataUtilitiesTest extends DataUtilities {
 		
 		KeyedValues actual = DataUtilities.getCumulativePercentages(charIntValue);
 		assertEquals("The cumulative percentage of all 3 values is wrong. Should always sum to 1",
-				1.0, (double) actual.getValue('c'),0.0001);
+				1.0, (double) actual.getValue(2),0.0001);
 	}
 	/*
 	 * This test is designed to test the method getCumulativePercentages
